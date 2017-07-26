@@ -478,7 +478,13 @@ class Client {
 
         $body = json_decode($response->getBody(), true);
 
-        $message = "HTTP:{$response->getStatusCode()}";
+        $message = isset($body['status_code']) ? "HTTP: {$response->getStatusCode()}" : "HTTP:{$body['status_code']}";
+        if ($body['errors']) {
+          foreach ($body['errors'] as $error) {
+            $message .= isset($error['error']) ? "; Error:{$error['error']}" : '';
+            $message .= isset($error['message']) ? "; Message:'{$error['message']}'" : '';
+          }
+        }
 
         throw new Exception\ApiException( $message, $response->getStatusCode(), $response );
 
