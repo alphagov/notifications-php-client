@@ -1,7 +1,6 @@
 {
   "name": "alphagov/notifications-php-client",
   "description": "PHP client for GOV.UK Notifications",
-  "version": "1.6.0",
   "minimum-stability": "stable",
   "license": "MIT",
   "type": "library",
