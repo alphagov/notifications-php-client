@@ -25,7 +25,7 @@ class Client {
      * @const string Current version of this client.
      * This follows Semantic Versioning (http://semver.org/)
      */
-    const VERSION = '2.1.0';
+    const VERSION = '2.1.2';
 
     /**
      * @const string The API endpoint for Notify production.
@@ -397,7 +397,7 @@ class Client {
      */
     public function prepareUpload( $file_contents ){
         if ( strlen($file_contents) > ( 2 * 1024 * 1024 )) {
-            throw new Exception\InvalidArgumentException( 'Document is larger than 2MB.' );
+            throw new Exception\InvalidArgumentException( 'File is larger than 2MB.' );
         }
         return [
             "file" => base64_encode($file_contents)
