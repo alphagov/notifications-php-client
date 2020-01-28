@@ -1,3 +1,9 @@
+## [2.1.2] - 2020-01-27
+
+### Changed
+
+* Refer to files, not documents in error messages.
+
 ## [2.1.1] - 2019-11-04
 
 ### Added
