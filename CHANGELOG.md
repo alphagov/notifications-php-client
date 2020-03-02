@@ -2,7 +2,7 @@
 ### Removed
 
 * Dropped support for ^1.0 releases of HTTPlug (phphttp/httplug)
-    * HTTP clients must now use the `Psr\Http\Client\ClientInterface` (found in 
+    * HTTP clients may now use the `Psr\Http\Client\ClientInterface` (found in 
     ^2.0 releases of HTTPlug) rather than `Http\Client\HttpClient` interface 
     (found in ^1.0 releases of HTTPlug).
 
