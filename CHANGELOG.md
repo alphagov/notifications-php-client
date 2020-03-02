@@ -1,3 +1,11 @@
+## [3.0.0] - 2020-02-25
+### Removed
+
+* Dropped support for ^1.0 releases of HTTPlug (phphttp/httplug)
+    * HTTP clients may now use the `Psr\Http\Client\ClientInterface` (found in 
+    ^2.0 releases of HTTPlug) rather than `Http\Client\HttpClient` interface 
+    (found in ^1.0 releases of HTTPlug).
+
 ## [2.1.2] - 2020-01-27
 
 ### Changed

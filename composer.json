@@ -24,7 +24,7 @@
     "php-http/message": "^1.1",
     "php-http/curl-client": "*",
     "php-http/mock-client": "*",
-    "php-http/socket-client": "*",
+    "php-http/socket-client": "2.0.0-beta1",
     "php-http/guzzle6-adapter": "*"
   },
   "suggest": {
