@@ -995,7 +995,7 @@ class ClientSpec extends ObjectBehavior
                 'name'=>'Fred',
                 'address_line_1' => 'Foo',
                 'address_line_2' => 'Bar',
-                'postcode' => 'Baz'
+                'postcode' => 'SW1 1AA'
             ]
         );
 
@@ -1017,7 +1017,7 @@ class ClientSpec extends ObjectBehavior
                 'name'=>'Fred',
                 'address_line_1' => 'Foo',
                 'address_line_2' => 'Bar',
-                'postcode' => 'Baz'
+                'postcode' => 'SW1 1AA'
             ],
             'reference'=>'client-ref'
         ];
