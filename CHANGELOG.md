@@ -1,3 +1,8 @@
+## [3.0.1] - 2020-03-31
+### Removed
+
+* Bumped firebase/php-jwt from 3.0.0 to 5.0.0 to bring in latest bugfixes and features
+
 ## [3.0.0] - 2020-02-25
 ### Removed
 
