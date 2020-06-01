@@ -105,7 +105,7 @@ try {
         '862bfaaf-9f89-43dd-aafa-2868ce2926a9'
     );
 
-} catch (NotifyException $e){}
+} catch (ApiException $e){}
 ```
 
 ### Arguments
@@ -192,7 +192,7 @@ All messages sent using the [team and whitelist](#team-and-whitelist) or [live](
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code.
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code.
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -226,7 +226,7 @@ try {
         '862bfaaf-9f89-43dd-aafa-2868ce2926a9'
         );
 
-} catch (NotifyException $e){}
+} catch (ApiException $e){}
 ```
 
 
@@ -328,8 +328,9 @@ try {
             'link_to_file' => $notifyClient->prepareUpload( $file_data )
         ]
     );
-
-} catch (NotifyException $e){}
+}
+catch (ApiException $e){}
+catch (InvalidArgumentException $e){}
 ```
 
 ### Response
@@ -357,7 +358,7 @@ If the request to the client is successful, the client returns an `array`:
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code.
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code.
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -406,7 +407,7 @@ try {
         'unique_ref123'
     );
 
-} catch (NotifyException $e){}
+} catch (ApiException $e){}
 ```
 
 ### Arguments
@@ -486,7 +487,7 @@ If the request to the client is successful, the client returns an `array`:
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code.
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code.
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -537,7 +538,7 @@ try {
         'first',
     );
 
-} catch (NotifyException $e){}
+} catch (ApiException $e){}
 ```
 
 #### postage (optional)
@@ -563,7 +564,7 @@ If the request to the client is successful, the client returns an `array`:
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code.
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code.
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -630,7 +631,7 @@ try {
 
     $response = $notifyClient->getNotification( 'c32e9c89-a423-42d2-85b7-a21cd4486a2a' );
 
-} catch (NotifyException $e){}
+} catch (ApiException $e){}
 ```
 
 ### Arguments
@@ -675,7 +676,7 @@ If the request to the client is successful, the client returns an `array`:
 
 ### Error codes
 
-If the request is not successful, the client will return an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client will return an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -805,7 +806,7 @@ If the request to the client is successful, the client returns an `array`.
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -842,7 +843,7 @@ If the request to the client is successful, the client will return a `string` co
 
 ### Error codes
 
-If the request is not successful, the client throws an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client throws an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |error.status_code|error.message|How to fix|
 |:---|:---|:---|
@@ -893,7 +894,7 @@ If the request to the client is successful, the client returns an `array`.
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -939,7 +940,7 @@ If the request to the client is successful, the client returns an `array`.
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |exc->getCode()|exc->getErrors()|How to fix|
 |:---|:---|:---|
@@ -1048,7 +1049,7 @@ If the request to the client is successful, the client returns an `array`.
 
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |exc->getCode()|exc->getErrors()|Notes|
 |:---|:---|:---|
@@ -1126,7 +1127,7 @@ If the request to the client is successful, the client returns an `array`.
 ```
 ### Error codes
 
-If the request is not successful, the client returns an `Alphagov\Notifications\Exception\NotifyException` object containing the relevant error code:
+If the request is not successful, the client returns an `Alphagov\Notifications\Exception\ApiException` object containing the relevant error code:
 
 |exc->getCode()|exc->getErrors()|Notes|
 |:---|:---|:---|
