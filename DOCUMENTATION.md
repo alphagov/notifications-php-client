@@ -188,7 +188,7 @@ If the request to the client is successful, the client returns an `array`:
 
 If you are using the [test API key](#test), all your messages will come back with a `delivered` status.
 
-All messages sent using the [team and whitelist](#team-and-whitelist) or [live](#live) keys will appear on your dashboard.
+All messages sent using the [team and guest list](#team-and-guest-list) or [live](#live) keys will appear on your dashboard.
 
 ### Error codes
 
