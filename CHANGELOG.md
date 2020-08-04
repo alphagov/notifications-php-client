@@ -1,3 +1,8 @@
+## [3.1.0] - 2020-08-04
+### Added
+
+* Add support for an optional `is_csv` parameter in the `prepareUpload()` function. This fixes a bug when sending a CSV file by email. This ensures that the file is downloaded as a CSV rather than a TXT file.
+
 ## [3.0.1] - 2020-03-31
 ### Removed
 

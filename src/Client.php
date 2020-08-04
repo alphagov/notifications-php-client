@@ -25,7 +25,7 @@ class Client {
      * @const string Current version of this client.
      * This follows Semantic Versioning (http://semver.org/)
      */
-    const VERSION = '3.0.1';
+    const VERSION = '3.1.0';
 
     /**
      * @const string The API endpoint for Notify production.
@@ -392,15 +392,17 @@ class Client {
      * Prepare a file before adding it to the $personalisation array for the sendEmail function
      *
      * @param string $file_contents
+     * @param bool $is_csv
      *
-     * @return string
+     * @return array
      */
-    public function prepareUpload( $file_contents ){
+    public function prepareUpload( $file_contents, $is_csv = false ){
         if ( strlen($file_contents) > ( 2 * 1024 * 1024 )) {
             throw new Exception\InvalidArgumentException( 'File is larger than 2MB.' );
         }
         return [
-            "file" => base64_encode($file_contents)
+            "file" => base64_encode($file_contents),
+            "is_csv" => $is_csv
         ];
     }
 

@@ -333,6 +333,28 @@ catch (ApiException $e){}
 catch (InvalidArgumentException $e){}
 ```
 
+#### CSV Files
+
+Uploads for CSV files should use the `is_csv` parameter on the `prepareUpload()` helper method.  For example:
+
+```php
+try {
+    $file_data = file_get_contents('/path/to/my/file.csv');
+
+    $response = $notifyClient->sendEmail(
+        'betty@example.com',
+        'df10a23e-2c0d-4ea5-87fb-82e520cbf93c',
+        [
+            'name' => 'Betty Smith',
+            'dob'  => '12 July 1968',
+            'link_to_file' => $notifyClient->prepareUpload( $file_data, true )
+        ]
+    );
+}
+catch (ApiException $e){}
+catch (InvalidArgumentException $e){}
+```
+
 ### Response
 
 If the request to the client is successful, the client returns an `array`:
