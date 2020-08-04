@@ -721,7 +721,12 @@ class ClientSpec extends ObjectBehavior
 
 
     function it_generates_the_expected_request_when_preparing_file_for_upload(){
-        $this->prepareUpload('%PDF-1.5 testpdf')->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==' ] );
+        $this->prepareUpload('%PDF-1.5 testpdf')->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'is_csv' => false ] );
+    }
+
+
+    function it_generates_the_expected_request_when_preparing_a_csv_file_for_upload(){
+        $this->prepareUpload('%PDF-1.5 testpdf', true)->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'is_csv' => true ] );
     }
 
 
