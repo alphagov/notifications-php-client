@@ -365,7 +365,7 @@ class ClientSpec extends ObjectBehavior
     function it_receives_the_expected_response_when_looking_up_an_email_template() {
       $templateId = getenv('EMAIL_TEMPLATE_ID');
 
-      // Retrieve sms notification by id and verify contents
+      // Retrieve email notification by id and verify contents
       $response = $this->getTemplate( $templateId );
 
       //
@@ -387,6 +387,7 @@ class ClientSpec extends ObjectBehavior
       $response['body']->shouldBe( "Hello ((name))\r\n\r\nFunctional test help make our world a better place" );
       $response['subject']->shouldBeString();
       $response['subject']->shouldBe( 'Functional Tests are good' );
+      $response['letter_contact_block']->shouldBeNull();
     }
 
     function it_receives_the_expected_response_when_looking_up_an_sms_template() {
@@ -416,6 +417,39 @@ class ClientSpec extends ObjectBehavior
       $response['version']->shouldBeInteger();
       $response['body']->shouldBe( "Hello ((name))\r\n\r\nFunctional Tests make our world a better place" );
       $response['subject']->shouldBeNull();
+      $response['letter_contact_block']->shouldBeNull();
+    }
+
+    function it_receives_the_expected_response_when_looking_up_a_letter_template() {
+      $templateId = getenv('LETTER_TEMPLATE_ID');
+
+      // Retrieve letter notification by id and verify contents
+      $response = $this->getTemplate( $templateId );
+
+      //
+      $response->shouldBeArray();
+      $response->shouldHaveKey( 'id' );
+      $response->shouldHaveKey( 'type' );
+      $response->shouldHaveKey( 'created_at' );
+      $response->shouldHaveKey( 'updated_at' );
+      $response->shouldHaveKey( 'created_by' );
+      $response->shouldHaveKey( 'version' );
+      $response->shouldHaveKey( 'body' );
+      $response->shouldHaveKey( 'subject' );
+
+      $response['id']->shouldBeString();
+      $response['id']->shouldBe( $templateId );
+      $response['type']->shouldBeString();
+      $response['type']->shouldBe( 'letter' );
+      $response['name']->shouldBeString();
+      $response['name']->shouldBe( 'Client functional letter template' );
+      $response['created_by']->shouldBeString();
+      $response['version']->shouldBeInteger();
+      $response['body']->shouldBe( "Hello ((address_line_1))" );
+      $response['subject']->shouldBeString();
+      $response['subject']->shouldBe( 'Main heading' );
+      $response['letter_contact_block']->shouldBe( "Government Digital Service\n" .
+      "The White Chapel Building\n10 Whitechapel High Street\nLondon\nE1 8QS\nUnited Kingdom" );
     }
 
     function it_receives_the_expected_response_when_looking_up_a_template_version() {
@@ -435,6 +469,7 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey( 'version' );
       $response->shouldHaveKey( 'body' );
       $response->shouldHaveKey( 'subject' );
+      $response->shouldHaveKey( 'letter_contact_block' );
 
       $response['id']->shouldBeString();
       $response['id']->shouldBe( $templateId );
@@ -449,11 +484,12 @@ class ClientSpec extends ObjectBehavior
       $response['version']->shouldBe( $version );
       $response['body']->shouldBe("Functional Tests make our world a better place");
       $response['subject']->shouldBeNull();
+      $response['letter_contact_block']->shouldBeNull();
     }
 
     function it_receives_the_expected_response_when_looking_up_all_templates() {
 
-      // Retrieve all notifications and verify each is correct (email & sms)
+      // Retrieve all templates and verify each is correct (email, sms & letter)
       $response = $this->listTemplates();
 
       $response->shouldHaveKey('templates');
@@ -476,6 +512,7 @@ class ClientSpec extends ObjectBehavior
           $template->shouldHaveKey( 'version' );
           $template->shouldHaveKey( 'body' );
           $template->shouldHaveKey( 'subject' );
+          $template->shouldHaveKey( 'letter_contact_block' );
 
           $template['id']->shouldBeString();
           $template['created_at']->shouldBeString();
@@ -488,10 +525,15 @@ class ClientSpec extends ObjectBehavior
 
           if ( $template_type == "sms" ) {
             $template['subject']->shouldBeNull();
+            $template['letter_contact_block']->shouldBeNull();
 
-          } elseif ( $template_type == "email" || $template_type == "letter" ) {
-
+          } elseif ( $template_type == "email") {
             $template['subject']->shouldBeString();
+            $template['letter_contact_block']->shouldBeNull();
+
+          } elseif ( $template_type == "letter") {
+            $template['subject']->shouldBeString();
+            $template['letter_contact_block']->shouldBeString();
 
           }
       }

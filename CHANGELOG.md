@@ -1,3 +1,8 @@
+## [3.2.0] - 2020-08-06
+### Added
+
+* Added `letter_contact_block` to the responses for `getTemplate`, `getTemplateVersion` and `listTemplates`.
+
 ## [3.1.0] - 2020-08-04
 ### Added
 
@@ -12,8 +17,8 @@
 ### Removed
 
 * Dropped support for ^1.0 releases of HTTPlug (phphttp/httplug)
-    * HTTP clients may now use the `Psr\Http\Client\ClientInterface` (found in 
-    ^2.0 releases of HTTPlug) rather than `Http\Client\HttpClient` interface 
+    * HTTP clients may now use the `Psr\Http\Client\ClientInterface` (found in
+    ^2.0 releases of HTTPlug) rather than `Http\Client\HttpClient` interface
     (found in ^1.0 releases of HTTPlug).
 
 ## [2.1.2] - 2020-01-27
