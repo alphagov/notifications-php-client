@@ -906,7 +906,8 @@ If the request to the client is successful, the client returns an `array`.
     "version" => "version",
     "created_by" => "someone@example.com",
     "body" => "body",
-    "subject" => "null|email_subject"
+    "subject" => "null|email or letter subject",
+    "letter_contact_block" => "null|letter_contact_block"
 ];
 ```
 
@@ -952,7 +953,8 @@ If the request to the client is successful, the client returns an `array`.
     "version" => "version",
     "created_by" => "someone@example.com",
     "body" => "body",
-    "subject" => "null|email_subject"
+    "subject" => "null|email or letter subject",
+    "letter_contact_block" => "null|letter_contact_block"
 ];
 ```
 
@@ -974,7 +976,7 @@ If the request is not successful, the client returns an `Alphagov\Notifications\
 This returns the latest version of all templates.
 
 ```php
-    $this->getAllTemplates(
+    $this->listTemplates(
       $template_type  // optional
     );
 ```
@@ -1004,7 +1006,8 @@ If the request to the client is successful, the client returns an `array`.
             "version" => "version",
             "created_by" => "someone@example.com",
             "body" => "body",
-            "subject" => "null|email_subject"
+            "subject" => "null|email or letter subject",
+            "letter_contact_block" => "null|letter_contact_block"
         ],
         [
             ... another template
