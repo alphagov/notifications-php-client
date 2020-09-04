@@ -444,7 +444,7 @@ To find the template ID:
 
 #### personalisation (required)
 
-The personalisation argument always contains the following required parameters for the letter recipient’s address:
+The personalisation argument always contains the following parameters for the letter recipient’s address:
 
 - `address_line_1`
 - `address_line_2`
@@ -483,20 +483,6 @@ A unique identifier you can create if necessary. This reference identifies a sin
 
 ```php
 $reference = 'STRING';
-```
-
-#### personalisation (optional)
-
-The following parameters in the letter recipient’s address are optional:
-
-```php
-$personalisation =
-    [
-    'address_line_3' => '123 High Street',
-    'address_line_4' => 'Richmond upon Thames',
-    'address_line_5' => 'London',
-    'address_line_6' => 'Middlesex',
-    ];
 ```
 
 ### Response
