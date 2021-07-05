@@ -24,12 +24,8 @@ integration-test: ## Run integration tests
 get-client-version: ## Retrieve client version number from source code
 	@php -r "include 'src/Client.php'; echo \\Alphagov\\Notifications\\Client::VERSION;"
 
-.PHONY: generate-env-file
-generate-env-file: ## Generate the environment file for running the tests inside a Docker container
-	scripts/generate_docker_env.sh
-
 .PHONY: bootstrap-with-docker
-bootstrap-with-docker: generate-env-file ## Prepare the Docker builder image
+bootstrap-with-docker: ## Prepare the Docker builder image
 	docker build -t notifications-php-client .
 	./scripts/run_with_docker.sh make bootstrap
 
