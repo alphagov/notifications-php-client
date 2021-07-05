@@ -2,6 +2,16 @@
 
 Pull requests are welcome.
 
+## Setting Up
+
+### Docker container
+
+This app uses dependencies that are difficult to install locally. In order to make local development easy, we run app commands through a Docker container. Run the following to set this up:
+
+```shell
+make prepare-docker-runner-image
+```
+
 ## Tests
 
 There are unit and integration tests that can be run to test functionality of the client.
@@ -11,7 +21,7 @@ There are unit and integration tests that can be run to test functionality of th
 To run the unit tests:
 
 ```sh
-vendor/bin/phpspec run spec/unit/ --format=pretty --verbose
+make test-with-docker
 ```
 
 ## Integration Tests
@@ -35,11 +45,5 @@ export INBOUND_SMS_QUERY_KEY="API_test_key to get received text messages"
 To run the integration tests:
 
 ```sh
-vendor/bin/phpspec run spec/integration/ --format=pretty --verbose
-```
-
-To run both sets of tests:
-
-```sh
-vendor/bin/phpspec run --format=pretty
+make integration-test-with-docker
 ```
