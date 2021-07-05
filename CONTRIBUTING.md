@@ -26,7 +26,7 @@ Unless you're part of the GOV.UK Notify team, you won't be able to run this comm
 
 There are unit and integration tests that can be run to test functionality of the client.
 
-## Unit Tests
+### Unit Tests
 
 To run the unit tests:
 
@@ -34,7 +34,7 @@ To run the unit tests:
 make test-with-docker
 ```
 
-## Integration Tests
+### Integration Tests
 
 To run the integration tests:
 
