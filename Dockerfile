@@ -14,3 +14,6 @@ RUN \
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir /usr/local/bin --filename composer
 
 WORKDIR /var/project
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_NO_INTERACTION=1
