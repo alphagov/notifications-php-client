@@ -1,6 +1,7 @@
 <?php
 namespace spec\unit\Alphagov\Notifications\Authentication;
 
+use Firebase\JWT\Key;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use PhpSpec\Exception\Example\FailureException;
@@ -93,7 +94,8 @@ class JsonWebTokenSpec extends ObjectBehavior
                 try {
 
                     JWT::$leeway = 5; // $leeway in seconds
-                    $decoded = JWT::decode($token, self::API_KEY, array('HS256'));
+                    $key = new Key(self::API_KEY, 'HS256');
+                    $decoded = JWT::decode($token, $key);
 
                 } catch( SignatureInvalidException $e ){
 
@@ -133,7 +135,8 @@ class JsonWebTokenSpec extends ObjectBehavior
                 try {
 
                     JWT::$leeway = 5; // $leeway in seconds
-                    JWT::decode($token, self::API_KEY, array('HS256'));
+                    $key = new Key(self::API_KEY, 'HS256');
+                    JWT::decode($token, $key);
 
                 } catch( SignatureInvalidException $e ){
 

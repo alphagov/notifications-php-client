@@ -73,7 +73,7 @@ class JsonWebToken implements JWTAuthenticationInterface {
 
         $claims = $this->generateClaims();
 
-        return JWT::encode( $claims, $this->key );
+        return JWT::encode( $claims, $this->key, 'HS256' );
 
     }
 

@@ -1,3 +1,11 @@
+## [4.0.0] - 2022-04-06
+### Removed
+
+* Removed support for PHP versions < 7.1
+* Bumped firebase/php-jwt from ^5.0.0 to ^v6.1.0 to bring in security patches
+
+See https://github.com/alphagov/notifications-php-client/pull/107 for further context
+
 ## [3.2.0] - 2020-08-06
 ### Added
 
