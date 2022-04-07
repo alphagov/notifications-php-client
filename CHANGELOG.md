@@ -1,3 +1,10 @@
+## [4.0.1] - 2022-04-07
+### Added
+
+* Added explicit requirement for PHP versions < 7.1 to composer.json
+
+See https://github.com/alphagov/notifications-php-client/pull/107 for further context
+
 ## [4.0.0] - 2022-04-06
 ### Removed
 
