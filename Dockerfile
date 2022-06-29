@@ -1,4 +1,4 @@
-FROM php:7.3-cli
+FROM php:8.0-cli
 
 ENV DEBIAN_FRONTEND=noninteractive
 
