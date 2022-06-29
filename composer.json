@@ -22,13 +22,9 @@
   "require-dev": {
     "phpspec/phpspec": "^5.0",
     "php-http/message": "^1.1",
-    "php-http/curl-client": "*",
     "php-http/mock-client": "*",
     "php-http/socket-client": "2.0.0-beta1",
     "php-http/guzzle6-adapter": "*"
-  },
-  "suggest": {
-    "ext-curl": "To send requests using cURL"
   },
   "autoload": {
     "psr-4": {
