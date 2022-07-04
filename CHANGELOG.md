@@ -1,3 +1,16 @@
+## [4.1.0] - 2022-07-01
+### Added
+
+* Added PHP 8 to supported PHP versions in `composer.json`. Support for PHP >7.1 is maintained. No code changes or updates to non-dev dependencies are required.
+
+### Changed
+
+* Updated dev dependencies:
+    * Updated `phpspec/phpspec` to ^7.2 (^5.0 permitted for PHP 7.1 users)
+    * Updated `php-http/socket-client` to ^2.1.0
+
+See https://github.com/alphagov/notifications-php-client/pull/115 for further context
+
 ## [4.0.1] - 2022-04-07
 ### Added
 
