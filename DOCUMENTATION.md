@@ -341,6 +341,7 @@ catch (InvalidArgumentException $e){}
 This feature is currently opt-in only. From 29 March 2023 it will apply to all new files by default, unless you opt out.
 
 ##### Opt in
+
 To ask recipients to confirm their email address, set the `verify_email_before_download` flag to `true`.
 
 You will not need to do this after 29 March 2023.
