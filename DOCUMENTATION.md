@@ -365,6 +365,7 @@ catch (InvalidArgumentException $e){}
 ```
 
 ##### Opt out (not recommended)
+
 You should not opt out if you send files that contain personally identifiable information or sensitive information.
 
 If you do not want to use this security feature, set the `verify_email_before_download` flag to `false` by 29 March 2023.
