@@ -275,7 +275,7 @@ To help protect your files you can also:
 * ask recipients to confirm their email address before downloading
 * choose the length of time that a file is available to download
 
-To turn these features on or off, you will need version X.X.X of the PHP client library or a more recent version.
+To turn these features on or off, you will need version 4.2.0 of the PHP client library or a more recent version.
 
 #### Add contact details to the file download page
 
@@ -349,9 +349,9 @@ From 29 March 2023, we will turn this feature on by default for every file you s
 
 ##### Turn on email address check
 
-To use this feature before 29 March 2023 you will need version X.X.X of the PHP client library, or a more recent version.
+To use this feature before 29 March 2023 you will need version 4.2.0 of the PHP client library, or a more recent version.
 
-To make the recipient confirm their email address before downloading the file, set the `verify_email_before_download` flag to `True`.
+To make the recipient confirm their email address before downloading the file, set the `confirm_email_before_download` flag to `true`.
 
 You will not need to do this after 29 March.
 
@@ -365,7 +365,7 @@ try {
         [
             'name' => 'Betty Smith',
             'dob'  => '12 July 1968',
-            'link_to_file' => $notifyClient->prepareUpload( $file_data )
+            'link_to_file' => $notifyClient->prepareUpload( $file_dat, false, true )
         ]
     );
 }
@@ -377,7 +377,7 @@ catch (InvalidArgumentException $e){}
 
 If you do not want to use this feature after 29 March 2023, you can turn it off on a file-by-file basis.
 
-To do this you will need version X.X.X of the PHP client library, or a more recent version.
+To do this you will need version 4.2.0 of the PHP client library, or a more recent version.
 
 You should not turn this feature off if you send files that contain:
 
@@ -385,7 +385,7 @@ You should not turn this feature off if you send files that contain:
 * commercially sensitive information
 * information classified as ‘OFFICIAL’ or ‘OFFICIAL-SENSITIVE’ under the [Government Security Classifications](https://www.gov.uk/government/publications/government-security-classifications) policy
 
-To let the recipient download the file without confirming their email address, set the `verify_email_before_download` flag to `False`.
+To let the recipient download the file without confirming their email address, set the `confirm_email_before_download` flag to `false`.
 
 ```php
 try {
@@ -397,7 +397,7 @@ try {
         [
             'name' => 'Betty Smith',
             'dob'  => '12 July 1968',
-            'link_to_file' => $notifyClient->prepareUpload( $file_data )
+            'link_to_file' => $notifyClient->prepareUpload( $file_data, false, false )
         ]
     );
 }
@@ -407,11 +407,11 @@ catch (InvalidArgumentException $e){}
 
 #### Choose the length of time that a file is available to download
 
-Set the number of weeks you want the file to be available using the `retention_period` key.
+Set the number of weeks you want the file to be available using the `retentionPeriod` key.
 
 You can choose any value between 1 week and 78 weeks.
 
-To use this feature will need version X.X.X of the PHP client library, or a more recent version.
+To use this feature will need version 4.2.0 of the PHP client library, or a more recent version.
 
 If you do not choose a value, the file will be available for the default period of 78 weeks (18 months).
 
@@ -425,7 +425,7 @@ try {
         [
             'name' => 'Betty Smith',
             'dob'  => '12 July 1968',
-            'link_to_file' => $notifyClient->prepareUpload( $file_data )
+            'link_to_file' => $notifyClient->prepareUpload( $file_data, false, null, "52 weeks" )
         ]
     );
 }
