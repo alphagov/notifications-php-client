@@ -1,3 +1,10 @@
+## [4.2.0] - 2022-09-27
+### Added
+
+* Add support for new security features when sending a file by email:
+  * `confirm_email_before_download` can be set to `true` to require the user to enter their email address before accessing the file.
+  * `retention_period` can be set to `<1-78> weeks` to set how long the file should be made available.
+
 ## [4.1.0] - 2022-07-01
 ### Added
 
