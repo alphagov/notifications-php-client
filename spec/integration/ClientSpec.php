@@ -153,6 +153,28 @@ class ClientSpec extends ObjectBehavior
 
     }
 
+    function it_receives_the_expected_response_when_sending_an_email_notification_with_an_uploaded_csv_using_email_confirmation_flow_and_retention_period(){
+
+        $file_contents = file_get_contents( './spec/integration/basic_csv.csv' );
+
+        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('EMAIL_TEMPLATE_ID'), [
+            "name" => $this->prepareUpload( $file_contents, TRUE, TRUE, '4 weeks' )
+        ]);
+
+        $response->shouldBeArray();
+        $response->shouldHaveKey( 'id' );
+        $response['id']->shouldBeString();
+
+        $response->shouldHaveKey( 'reference' );
+
+        $response->shouldHaveKey( 'content' );
+        $response['content']->shouldBeArray();;
+        $response['content']->shouldHaveKey( 'body' );
+        $response['content']['body']->shouldBeString();
+        $response['content']['body']->shouldContain("https://documents.");
+
+    }
+
     function it_receives_the_expected_response_when_looking_up_an_email_notification() {
 
       // Requires the 'it_receives_the_expected_response_when_sending_an_email_notification' test to have completed successfully
