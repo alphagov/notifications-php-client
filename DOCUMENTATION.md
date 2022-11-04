@@ -4,14 +4,14 @@ This documentation is for developers interested in using the GOV.UK Notify PHP c
 
 ## Set up the client
 
-The Notify PHP Client is based on a [PSR-7 HTTP model](https://www.php-fig.org/psr/psr-7/) [external link]. To install it, you must select your preferred PSR-7 compatible HTTP client. You can follow these instructions to use [Guzzle v6 and v5](http://docs.guzzlephp.org/en/stable/)[external link].
+The Notify PHP Client is based on a [PSR-7 HTTP model](https://www.php-fig.org/psr/psr-7/) [external link]. To install it, you must select your preferred PSR-7 compatible HTTP client. You can follow these instructions to use [Guzzle v7](https://docs.guzzlephp.org/en/7.0/)[external link].
 
-### Guzzle v6
+### Guzzle v7
 
 1. Use [Composer](https://getcomposer.org/)  [external link] to install the GOV.UK Notify PHP client. Run the following in the command line:
 
     ```sh
-    composer require php-http/guzzle6-adapter alphagov/notifications-php-client
+    composer require php-http/guzzle7-adapter alphagov/notifications-php-client
     ```
 
     You can now use the [autoloader](https://getcomposer.org/doc/01-basic-usage.md#autoloading) [external link] to download the GOV.UK Notify PHP client.
@@ -21,7 +21,7 @@ The Notify PHP Client is based on a [PSR-7 HTTP model](https://www.php-fig.org/p
     ```
     $notifyClient = new \Alphagov\Notifications\Client([
         'apiKey' => '{your api key}',
-        'httpClient' => new \Http\Adapter\Guzzle6\Client
+        'httpClient' => new \Http\Adapter\Guzzle7\Client
     ]);
     ```
 
