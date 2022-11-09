@@ -13,6 +13,7 @@ use Alphagov\Notifications\Exception\ApiException;
 use GuzzleHttp\Psr7\Uri;
 use Http\Client\HttpClient as HttpClientInterface;
 use GuzzleHttp\Psr7\Response;
+use Http\Adapter\Guzzle7\Client as Guzzle7Client;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -32,7 +33,7 @@ class ClientSpec extends ObjectBehavior
       $this->beConstructedWith([
             'baseUrl'       => getenv('NOTIFY_API_URL'),
             'apiKey'        => getenv('API_KEY'),
-            'httpClient'    => new \Http\Adapter\Guzzle6\Client
+            'httpClient'    => new Guzzle7Client()
         ]);
 
     }
@@ -599,7 +600,7 @@ class ClientSpec extends ObjectBehavior
       $this->beConstructedWith([
         'baseUrl'       => getenv('NOTIFY_API_URL'),
         'apiKey'        => getenv('API_SENDING_KEY'),
-        'httpClient'    => new \Http\Adapter\Guzzle6\Client
+        'httpClient'    => new Guzzle7Client(),
       ]);
 
       $response = $this->sendSms(
@@ -729,7 +730,7 @@ class ClientSpec extends ObjectBehavior
       $this->beConstructedWith([
         'baseUrl'       => getenv('NOTIFY_API_URL'),
         'apiKey'        => getenv('INBOUND_SMS_QUERY_KEY'),
-        'httpClient'    => new \Http\Adapter\Guzzle6\Client
+        'httpClient'    => new Guzzle7Client(),
       ]);
 
       $response = $this->listReceivedTexts();
