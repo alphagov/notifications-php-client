@@ -5,5 +5,5 @@ Use this client to send emails, text messages and letters using the [GOV.UK Noti
 Useful links:
 
 - [Documentation](https://docs.notifications.service.gov.uk/php.html)
-- [Changelog](https://github.com/alphagov/notifications-php-client/blob/master/CHANGELOG.md)
-- [Contributing to this client](https://github.com/alphagov/notifications-php-client/blob/master/CONTRIBUTING.md)
+- [Changelog](https://github.com/alphagov/notifications-php-client/blob/main/CHANGELOG.md)
+- [Contributing to this client](https://github.com/alphagov/notifications-php-client/blob/main/CONTRIBUTING.md)
