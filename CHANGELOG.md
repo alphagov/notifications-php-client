@@ -1,3 +1,8 @@
+## [5.0.0] - 2022-11-25
+### Removed
+
+* Removed guzzle5-adapter and guzzle6-adapter documentation and support; this version now supports any PSR-7 compatible client library. Our documentation provides examples for using guzzle7.
+
 ## [4.2.0] - 2022-09-27
 ### Added
 

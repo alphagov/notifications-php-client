@@ -32,7 +32,7 @@ class ClientSpec extends ObjectBehavior
       $this->beConstructedWith([
             'baseUrl'       => getenv('NOTIFY_API_URL'),
             'apiKey'        => getenv('API_KEY'),
-            'httpClient'    => new \Http\Adapter\Guzzle6\Client
+            'httpClient'    => new \Http\Adapter\Guzzle7\Client
         ]);
 
     }
@@ -599,7 +599,7 @@ class ClientSpec extends ObjectBehavior
       $this->beConstructedWith([
         'baseUrl'       => getenv('NOTIFY_API_URL'),
         'apiKey'        => getenv('API_SENDING_KEY'),
-        'httpClient'    => new \Http\Adapter\Guzzle6\Client
+        'httpClient'    => new \Http\Adapter\Guzzle7\Client
       ]);
 
       $response = $this->sendSms(
@@ -729,7 +729,7 @@ class ClientSpec extends ObjectBehavior
       $this->beConstructedWith([
         'baseUrl'       => getenv('NOTIFY_API_URL'),
         'apiKey'        => getenv('INBOUND_SMS_QUERY_KEY'),
-        'httpClient'    => new \Http\Adapter\Guzzle6\Client
+        'httpClient'    => new \Http\Adapter\Guzzle7\Client
       ]);
 
       $response = $this->listReceivedTexts();
