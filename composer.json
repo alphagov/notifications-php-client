@@ -4,6 +4,11 @@
   "minimum-stability": "stable",
   "license": "MIT",
   "type": "library",
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": false
+    }
+  },
   "authors": [
     {
       "name": "GOV UK Notify",
