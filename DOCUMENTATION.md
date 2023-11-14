@@ -27,6 +27,25 @@ The Notify PHP Client is based on a [PSR-7 HTTP model](https://www.php-fig.org/p
 
 To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in) and go to the __API integration__ page. You can find more information in the [API keys](#api-keys) section of this documentation.
 
+## Error codes
+
+Errors consist of:
+
+- a code, for example ‘400’
+- a type, for example’BadRequestError’
+- a message, for example ‘Mobile numbers can only include: 0 1 2 3 4 5 6 7 8 9 ( ) + -‘
+
+Do not use the error message despcriptions in your code. These can sometimes change, which may affect your API integration.
+
+Use the error code or error type instead, as these will not change. 
+
+Find more information on error codes in:
+
+- [send a message](https://docs.notifications.service.gov.uk/php.html#send-a-message)
+- [get message status](https://docs.notifications.service.gov.uk/php.html#get-message-status)
+- [get a template](https://docs.notifications.service.gov.uk/php.html#get-a-template)
+- [get received text messages](https://docs.notifications.service.gov.uk/php.html#get-received-text-messages)
+
 ## Send a message
 
 You can use GOV.UK Notify to send text messages, emails and letters.
