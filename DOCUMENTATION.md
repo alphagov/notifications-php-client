@@ -200,7 +200,7 @@ If a template has placeholder fields for personalised information such as name o
 $personalisation = [
     'name' => 'Amala',
     'application_date'  => '2018-01-01',
-    # pass in a list and it will appear as bullet points in the message:
+    # pass in an array and it will appear as bullet points in the message:
     'required_documents' => ['passport', 'utility bill', 'other id']
 ];
 ```
@@ -505,7 +505,7 @@ $personalisation =
             'address_line_5' => 'SW14 6BF',
             'name' => 'John Smith',
             'application_id' => '4134325',
-            # pass in a list and it will appear as bullet points in the letter:
+            # pass in an array and it will appear as bullet points in the letter:
             'required_documents' => ['passport', 'utility bill', 'other id']
           ];
 ```
