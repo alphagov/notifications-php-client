@@ -1,3 +1,8 @@
+## [6.0.0] - 2023-12-27
+
+* Removes the `is_csv` parameter from `prepareUpload`
+* Adds a `filename` parameter to `prepareUpload` to set the filename of a document when it is downloaded. See the documentation for more information.
+
 ## [5.0.0] - 2022-11-25
 ### Removed
 

@@ -290,9 +290,15 @@ catch (ApiException $e){}
 catch (InvalidArgumentException $e){}
 ```
 
-##### CSV Files
+#### Set the filename
 
-Uploads for CSV files should use the `is_csv` parameter on the `prepareUpload()` helper method.  For example:
+You can provide a filename to set when the recipient downloads the file. If this is not provided, a random filename will be generated.
+
+Choosing a sensible filename can help users understand what the file contains, and find it again later.
+
+You do not have to set this, but we strongly recommend it.
+
+The filename must include the correct file extension, such as `.csv` for a CSV file. If you include the wrong file extension, users may not be able to open your file.
 
 ```php
 try {
@@ -304,7 +310,7 @@ try {
         [
             'name' => 'Betty Smith',
             'dob'  => '12 July 1968',
-            'link_to_file' => $notifyClient->prepareUpload( $file_data, true )
+            'link_to_file' => $notifyClient->prepareUpload( $file_data, "report.csv" )
         ]
     );
 }
@@ -342,7 +348,7 @@ try {
         [
             'name' => 'Betty Smith',
             'dob'  => '12 July 1968',
-            'link_to_file' => $notifyClient->prepareUpload( $file_data, false, false )
+            'link_to_file' => $notifyClient->prepareUpload( $file_data, null, false )
         ]
     );
 }
@@ -375,7 +381,7 @@ try {
         [
             'name' => 'Betty Smith',
             'dob'  => '12 July 1968',
-            'link_to_file' => $notifyClient->prepareUpload( $file_data, false, null, "52 weeks" )
+            'link_to_file' => $notifyClient->prepareUpload( $file_data, null, null, "52 weeks" )
         ]
     );
 }
