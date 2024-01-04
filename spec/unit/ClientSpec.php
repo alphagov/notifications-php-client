@@ -721,17 +721,17 @@ class ClientSpec extends ObjectBehavior
 
 
     function it_generates_the_expected_request_when_preparing_file_for_upload(){
-        $this->prepareUpload('%PDF-1.5 testpdf')->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'is_csv' => false, 'confirm_email_before_download' => NULL, 'retention_period' => NULL ] );
+        $this->prepareUpload('%PDF-1.5 testpdf')->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'filename' => NULL, 'confirm_email_before_download' => NULL, 'retention_period' => NULL ] );
     }
 
 
     function it_generates_the_expected_request_when_preparing_a_csv_file_for_upload(){
-        $this->prepareUpload('%PDF-1.5 testpdf', true)->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'is_csv' => true, 'confirm_email_before_download' => NULL, 'retention_period' => NULL ] );
+        $this->prepareUpload('%PDF-1.5 testpdf', 'report.csv')->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'filename' => 'report.csv', 'confirm_email_before_download' => NULL, 'retention_period' => NULL ] );
     }
 
 
     function it_generates_the_expected_request_when_configuring_email_confirmation_and_retention(){
-        $this->prepareUpload('%PDF-1.5 testpdf', true, true, "1 weeks")->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'is_csv' => true, 'confirm_email_before_download' => true, 'retention_period' => '1 weeks' ] );
+        $this->prepareUpload('%PDF-1.5 testpdf', null, true, "1 weeks")->shouldReturn( [ 'file' => 'JVBERi0xLjUgdGVzdHBkZg==', 'filename' => NULL, 'confirm_email_before_download' => true, 'retention_period' => '1 weeks' ] );
     }
 
 

@@ -158,7 +158,7 @@ class ClientSpec extends ObjectBehavior
         $file_contents = file_get_contents( './spec/integration/basic_csv.csv' );
 
         $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('EMAIL_TEMPLATE_ID'), [
-            "name" => $this->prepareUpload( $file_contents, TRUE, TRUE, '4 weeks' )
+            "name" => $this->prepareUpload( $file_contents, 'report.csv', TRUE, '4 weeks' )
         ]);
 
         $response->shouldBeArray();
