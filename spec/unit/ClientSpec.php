@@ -665,8 +665,56 @@ class ClientSpec extends ObjectBehavior
 
     }
 
-    function it_receives_the_expected_response_when_sending_email(){
+    function it_generates_the_expected_request_when_sending_email_with_unsubscribe_link(){
 
+        //---------------------------------
+        // Test Setup
+
+        $payload = [
+            'email_address' => 'text@example.com',
+            'template_id'=> 118,
+            'personalisation' => [
+                'name'=>'Fred'
+            ],
+            'reference'=>'client-ref',
+            'unsubscribe_link'=>'https://unsubscribelink.com/unsubscribe'
+        ];
+
+        $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
+            new Response(
+                201,
+                [ 'Content-type'  => 'application/json' ],
+                json_encode([ 'notification_id' => 'xxx' ])
+            )
+        );
+
+        //---------------------------------
+        // Perform action
+
+        $this->sendEmail( $payload['email_address'], $payload['template_id'], $payload['personalisation'], $payload['reference'], NULL, $payload['unsubscribe_link'] );
+
+        //---------------------------------
+        // Check result
+
+        $this->httpClient->sendRequest( Argument::that(function( $v ) use ($payload) {
+
+            // Check a request was sent.
+            if( !( $v instanceof RequestInterface ) ){
+                return false;
+            }
+
+            // With the expected body.
+            if( json_decode( $v->getBody(), true ) != $payload ){
+                return false;
+            }
+
+            return true;
+
+        }))->shouldHaveBeenCalled();
+
+    }
+
+    function it_receives_the_expected_response_when_sending_email(){
         //---------------------------------
         // Test Setup
 

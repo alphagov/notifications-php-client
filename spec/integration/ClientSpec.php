@@ -49,6 +49,7 @@ class ClientSpec extends ObjectBehavior
           [ "name" => "Foo" ],
           'my_ref',
           getenv('EMAIL_REPLY_TO_ID'),
+          'https://www.example.com/unsubscribe'
         );
 
         $response->shouldBeArray();
@@ -70,6 +71,9 @@ class ClientSpec extends ObjectBehavior
         $response['content']->shouldHaveKey( 'subject' );
         $response['content']['subject']->shouldBeString();
         $response['content']['subject']->shouldBe("Functional Tests are good");
+        $response['content']->shouldHaveKey( 'unsubscribe_link' );
+        $response['content']['unsubscribe_link']->shouldBeString();
+        $response['content']['unsubscribe_link']->shouldBe("https://www.example.com/unsubscribe");
 
         $response->shouldHaveKey( 'template' );
         $response['template']->shouldBeArray();
@@ -163,6 +167,7 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey( 'reference' );
       $response->shouldHaveKey( 'email_address' );
       $response['email_address']->shouldBeString();
+      $response->shouldHaveKey( 'unsubscribe_link' );
       $response->shouldHaveKey( 'phone_number' );
       $response->shouldHaveKey( 'line_1' );
       $response->shouldHaveKey( 'line_2' );
