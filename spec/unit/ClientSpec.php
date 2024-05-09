@@ -694,30 +694,30 @@ class ClientSpec extends ObjectBehavior
 
     function it_receives_the_expected_response_when_sending_email_with_valid_emailReplyToId(){
 
-                //---------------------------------
-                // Test Setup
+        //---------------------------------
+        // Test Setup
 
-                $id = self::SAMPLE_ID;
+        $id = self::SAMPLE_ID;
 
-                $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
-                    new Response(
-                        201,
-                        ['Content-type'  => 'application/json'],
-                        json_encode(['notification_id' => $id])
-                    )
-                );
+        $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
+            new Response(
+                201,
+                ['Content-type'  => 'application/json'],
+                json_encode(['notification_id' => $id])
+            )
+        );
 
-                //---------------------------------
-                // Perform action
+        //---------------------------------
+        // Perform action
 
-                $response = $this->sendEmail( 'text@example.com', 118, [ 'name'=>'Fred' ], '',  uniqid() );
+        $response = $this->sendEmail( 'text@example.com', 118, [ 'name'=>'Fred' ], '',  uniqid() );
 
-                //---------------------------------
-                // Check result
+        //---------------------------------
+        // Check result
 
-                $response->shouldHaveKeyWithValue('notification_id', $id);
+        $response->shouldHaveKeyWithValue('notification_id', $id);
 
-            }
+    }
 
 
     function it_generates_the_expected_request_when_preparing_file_for_upload(){
