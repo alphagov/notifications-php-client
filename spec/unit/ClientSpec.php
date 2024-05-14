@@ -665,7 +665,7 @@ class ClientSpec extends ObjectBehavior
 
     }
 
-    function it_generates_the_expected_request_when_sending_email_with_unsubscribe_link(){
+    function it_generates_the_expected_request_when_sending_email_with_one_click_unsubscribe_url(){
 
         //---------------------------------
         // Test Setup
@@ -677,7 +677,7 @@ class ClientSpec extends ObjectBehavior
                 'name'=>'Fred'
             ],
             'reference'=>'client-ref',
-            'unsubscribe_link'=>'https://unsubscribelink.com/unsubscribe'
+            'one_click_unsubscribe_url'=>'https://oneClickUnsubscribeURL.com/unsubscribe'
         ];
 
         $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
@@ -691,7 +691,7 @@ class ClientSpec extends ObjectBehavior
         //---------------------------------
         // Perform action
 
-        $this->sendEmail( $payload['email_address'], $payload['template_id'], $payload['personalisation'], $payload['reference'], NULL, $payload['unsubscribe_link'] );
+        $this->sendEmail( $payload['email_address'], $payload['template_id'], $payload['personalisation'], $payload['reference'], NULL, $payload['one_click_unsubscribe_url'] );
 
         //---------------------------------
         // Check result

@@ -187,15 +187,15 @@ class Client {
      * @param string    $templateId
      * @param array     $personalisation
      * @param string    $reference
-     * @param string    $unsubscribeLink
+     * @param string    $oneClickUnsubscribeURL
      *
      * @return array
      */
-    public function sendEmail( $emailAddress, $templateId, array $personalisation = array(), $reference = '', $emailReplyToId = NULL, $unsubscribeLink = NULL ){
+    public function sendEmail( $emailAddress, $templateId, array $personalisation = array(), $reference = '', $emailReplyToId = NULL, $oneClickUnsubscribeURL = NULL ){
 
         return $this->httpPost(
             self::PATH_NOTIFICATION_SEND_EMAIL,
-            $this->buildEmailPayload( 'email', $emailAddress, $templateId, $personalisation, $reference, $emailReplyToId, $unsubscribeLink )
+            $this->buildEmailPayload( 'email', $emailAddress, $templateId, $personalisation, $reference, $emailReplyToId, $oneClickUnsubscribeURL )
         );
 
     }
@@ -465,11 +465,11 @@ class Client {
      * @param array     $personalisation
      * @param string    $reference
      * @param string    $emailReplyToId
-     * @param string    $unsubscribeLink
+     * @param string    $oneClickUnsubscribeURL
      *
      * @return array
      */
-    private function buildEmailPayload( $type, $to, $templateId, array $personalisation, $reference, $emailReplyToId = NULL, $unsubscribeLink = NULL ) {
+    private function buildEmailPayload( $type, $to, $templateId, array $personalisation, $reference, $emailReplyToId = NULL, $oneClickUnsubscribeURL = NULL ) {
 
         $payload = $this->buildPayload( $type, $to, $templateId, $personalisation, $reference );
 
@@ -477,8 +477,8 @@ class Client {
             $payload['email_reply_to_id'] = $emailReplyToId;
         }
 
-        if ( isset($unsubscribeLink) && $unsubscribeLink != '' ) {
-            $payload['unsubscribe_link'] = $unsubscribeLink;
+        if ( isset($oneClickUnsubscribeURL) && $oneClickUnsubscribeURL != '' ) {
+            $payload['one_click_unsubscribe_url'] = $oneClickUnsubscribeURL;
         }
 
         return $payload;
