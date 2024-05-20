@@ -1,3 +1,7 @@
+## [6.1.0] - 2024-5-10
+
+* Adds `oneClickUnsubscribeURL` parameter to `sendEmail`
+
 ## [6.0.0] - 2023-12-27
 
 * Removes the `is_csv` parameter from `prepareUpload`

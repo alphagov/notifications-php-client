@@ -665,8 +665,56 @@ class ClientSpec extends ObjectBehavior
 
     }
 
-    function it_receives_the_expected_response_when_sending_email(){
+    function it_generates_the_expected_request_when_sending_email_with_one_click_unsubscribe_url(){
 
+        //---------------------------------
+        // Test Setup
+
+        $payload = [
+            'email_address' => 'text@example.com',
+            'template_id'=> 118,
+            'personalisation' => [
+                'name'=>'Fred'
+            ],
+            'reference'=>'client-ref',
+            'one_click_unsubscribe_url'=>'https://oneClickUnsubscribeURL.com/unsubscribe'
+        ];
+
+        $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
+            new Response(
+                201,
+                [ 'Content-type'  => 'application/json' ],
+                json_encode([ 'notification_id' => 'xxx' ])
+            )
+        );
+
+        //---------------------------------
+        // Perform action
+
+        $this->sendEmail( $payload['email_address'], $payload['template_id'], $payload['personalisation'], $payload['reference'], NULL, $payload['one_click_unsubscribe_url'] );
+
+        //---------------------------------
+        // Check result
+
+        $this->httpClient->sendRequest( Argument::that(function( $v ) use ($payload) {
+
+            // Check a request was sent.
+            if( !( $v instanceof RequestInterface ) ){
+                return false;
+            }
+
+            // With the expected body.
+            if( json_decode( $v->getBody(), true ) != $payload ){
+                return false;
+            }
+
+            return true;
+
+        }))->shouldHaveBeenCalled();
+
+    }
+
+    function it_receives_the_expected_response_when_sending_email(){
         //---------------------------------
         // Test Setup
 
@@ -694,30 +742,30 @@ class ClientSpec extends ObjectBehavior
 
     function it_receives_the_expected_response_when_sending_email_with_valid_emailReplyToId(){
 
-                //---------------------------------
-                // Test Setup
+        //---------------------------------
+        // Test Setup
 
-                $id = self::SAMPLE_ID;
+        $id = self::SAMPLE_ID;
 
-                $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
-                    new Response(
-                        201,
-                        ['Content-type'  => 'application/json'],
-                        json_encode(['notification_id' => $id])
-                    )
-                );
+        $this->httpClient->sendRequest( Argument::type('Psr\Http\Message\RequestInterface') )->willReturn(
+            new Response(
+                201,
+                ['Content-type'  => 'application/json'],
+                json_encode(['notification_id' => $id])
+            )
+        );
 
-                //---------------------------------
-                // Perform action
+        //---------------------------------
+        // Perform action
 
-                $response = $this->sendEmail( 'text@example.com', 118, [ 'name'=>'Fred' ], '',  uniqid() );
+        $response = $this->sendEmail( 'text@example.com', 118, [ 'name'=>'Fred' ], '',  uniqid() );
 
-                //---------------------------------
-                // Check result
+        //---------------------------------
+        // Check result
 
-                $response->shouldHaveKeyWithValue('notification_id', $id);
+        $response->shouldHaveKeyWithValue('notification_id', $id);
 
-            }
+    }
 
 
     function it_generates_the_expected_request_when_preparing_file_for_upload(){
