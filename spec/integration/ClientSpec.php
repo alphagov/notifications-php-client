@@ -195,6 +195,16 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey( 'sent_at' );
       $response->shouldHaveKey( 'completed_at' );
 
+      $response->shouldHaveKey('cost_details');
+      $response['cost_details']->shouldBeArray();
+
+       $response->shouldHaveKey('cost_in_pounds');
+       $response['cost_in_pounds']->shouldBe(0.0);
+
+       $response->shouldHaveKey('is_cost_data_ready');
+       $response['is_cost_data_ready']->shouldBe(true);
+
+
       self::$notificationId = $response['id']->getWrappedObject();
 
     }
@@ -284,6 +294,14 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey( 'sent_at' );
       $response->shouldHaveKey( 'completed_at' );
 
+      $response->shouldHaveKey('cost_details');
+      $response['cost_details']->shouldBeArray();
+      $response->shouldHaveKey('cost_in_pounds');
+      $response->shouldHaveKey('is_cost_data_ready');
+
+      $response['cost_details']->shouldHaveKey( 'billable_sms_fragments' );
+      $response['cost_details']->shouldHaveKey( 'international_rate_multiplier' );
+      $response['cost_details']->shouldHaveKey( 'sms_rate' );
     }
 
     function it_receives_the_expected_response_when_looking_up_all_notifications() {
