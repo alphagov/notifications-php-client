@@ -195,6 +195,16 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey( 'sent_at' );
       $response->shouldHaveKey( 'completed_at' );
 
+      $response->shouldHaveKey('cost_details');
+      $response['cost_details']->shouldBeArray();
+
+       $response->shouldHaveKey('cost_in_pounds');
+       $response['cost_in_pounds']->shouldBe(0.0);
+
+       $response->shouldHaveKey('is_cost_data_ready');
+       $response['is_cost_data_ready']->shouldBe(true);
+
+
       self::$notificationId = $response['id']->getWrappedObject();
 
     }
@@ -284,6 +294,14 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey( 'sent_at' );
       $response->shouldHaveKey( 'completed_at' );
 
+      $response->shouldHaveKey('cost_details');
+      $response['cost_details']->shouldBeArray();
+      $response->shouldHaveKey('cost_in_pounds');
+      $response->shouldHaveKey('is_cost_data_ready');
+
+      $response['cost_details']->shouldHaveKey( 'billable_sms_fragments' );
+      $response['cost_details']->shouldHaveKey( 'international_rate_multiplier' );
+      $response['cost_details']->shouldHaveKey( 'sms_rate' );
     }
 
     function it_receives_the_expected_response_when_looking_up_all_notifications() {
@@ -760,5 +778,64 @@ class ClientSpec extends ObjectBehavior
       }
       $resp->shouldBeString();
       $resp->shouldStartWith( "%PDF-" );
+    }
+
+function it_receives_the_expected_response_when_looking_up_a_letter_notification() {
+      // Requires the 'it_receives_the_expected_response_when_sending_a_letter_notification' test to have completed successfully
+      if(is_null(self::$letterNotificationId)) {
+          throw new UnexpectedValueException('Letter ID not set');
+      }
+
+      $notificationId = self::$letterNotificationId;
+
+      // Retrieve letter notification by id and verify contents
+      $response = $this->getNotification($notificationId);
+      $response->shouldBeArray();
+      $response->shouldHaveKey( 'id' );
+      $response['id']->shouldBeString();
+
+      $response->shouldHaveKey( 'body' );
+      $response['body']->shouldBe('Hello Foo');
+      $response->shouldHaveKey( 'subject' );
+
+      $response->shouldHaveKey( 'reference' );
+      $response->shouldHaveKey( 'email_address' );
+      $response->shouldHaveKey( 'phone_number' );
+      $response->shouldHaveKey( 'line_1' );
+      $response->shouldHaveKey( 'line_2' );
+      $response->shouldHaveKey( 'line_3' );
+      $response->shouldHaveKey( 'line_4' );
+      $response->shouldHaveKey( 'line_5' );
+      $response->shouldHaveKey( 'line_6' );
+      $response['line_1']->shouldBeString();
+      $response['line_2']->shouldBeString();
+
+      $response->shouldHaveKey( 'postcode' );
+      $response->shouldHaveKey( 'type' );
+      $response['type']->shouldBeString();
+      $response['type']->shouldBe('letter');
+      $response->shouldHaveKey( 'status' );
+      $response['status']->shouldBeString();
+
+      $response->shouldHaveKey( 'template' );
+      $response['template']->shouldBeArray();
+      $response['template']->shouldHaveKey( 'id' );
+      $response['template']['id']->shouldBeString();
+      $response['template']->shouldHaveKey( 'version' );
+      $response['template']['version']->shouldBeInteger();
+      $response['template']->shouldHaveKey( 'uri' );
+      $response['template']['uri']->shouldBeString();
+
+      $response->shouldHaveKey( 'created_at' );
+      $response->shouldHaveKey( 'sent_at' );
+      $response->shouldHaveKey( 'completed_at' );
+
+      $response->shouldHaveKey('cost_details');
+      $response['cost_details']->shouldBeArray();
+      $response->shouldHaveKey('cost_in_pounds');
+      $response->shouldHaveKey('is_cost_data_ready');
+
+      $response['cost_details']->shouldHaveKey( 'billable_sheets_of_paper' );
+      $response['cost_details']->shouldHaveKey( 'postage' );
     }
 }
