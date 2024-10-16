@@ -1,4 +1,5 @@
 FROM php:7.3-cli
+COPY ./ /notifications-php-client
 
 ENV DEBIAN_FRONTEND=noninteractive
 
