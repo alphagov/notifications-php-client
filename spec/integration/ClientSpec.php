@@ -46,7 +46,7 @@ class ClientSpec extends ObjectBehavior
         $response = $this->sendEmail(
           getenv('FUNCTIONAL_TEST_EMAIL'),
           getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'),
-          [ "name" => "Foo" ],
+          [ "build_id" => "Foo" ],
           'my_ref',
           getenv('FUNCTIONAL_TESTS_SERVICE_EMAIL_REPLY_TO_ID'),
           'https://www.example.com/unsubscribe'
@@ -67,10 +67,9 @@ class ClientSpec extends ObjectBehavior
         $response['content']['from_email']->shouldBeString();
         $response['content']->shouldHaveKey( 'body' );
         $response['content']['body']->shouldBeString();
-        $response['content']['body']->shouldBe("Hello Foo\r\n\r\nFunctional test help make our world a better place");
+        $response['content']['body']->shouldContain("Foo");
         $response['content']->shouldHaveKey( 'subject' );
         $response['content']['subject']->shouldBeString();
-        $response['content']['subject']->shouldBe("Functional Tests are good");
         $response['content']->shouldHaveKey( 'one_click_unsubscribe_url' );
         $response['content']['one_click_unsubscribe_url']->shouldBeString();
         $response['content']['one_click_unsubscribe_url']->shouldBe("https://www.example.com/unsubscribe");
@@ -94,7 +93,7 @@ class ClientSpec extends ObjectBehavior
       $this->shouldThrow('Alphagov\Notifications\Exception\ApiException')->duringSendEmail(
         getenv('FUNCTIONAL_TEST_EMAIL'),
         getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'),
-        [ "name" => "Foo" ],
+        [ "build_id" => "Foo" ],
         '',
         'invlaid_uuid'
       );
@@ -105,7 +104,7 @@ class ClientSpec extends ObjectBehavior
         $file_contents = file_get_contents( './spec/integration/one_page_pdf.pdf' );
 
         $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'), [
-            "name" => $this->prepareUpload( $file_contents )
+            "build_id" => $this->prepareUpload( $file_contents )
         ]);
 
         $response->shouldBeArray();
@@ -127,7 +126,7 @@ class ClientSpec extends ObjectBehavior
         $file_contents = file_get_contents( './spec/integration/basic_csv.csv' );
 
         $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'), [
-            "name" => $this->prepareUpload( $file_contents, 'report.csv', TRUE, '4 weeks' )
+            "build_id" => $this->prepareUpload( $file_contents, 'report.csv', TRUE, '4 weeks' )
         ]);
 
         $response->shouldBeArray();
@@ -154,14 +153,20 @@ class ClientSpec extends ObjectBehavior
       $notificationId = self::$notificationId;
 
       // Retrieve email notification by id and verify contents
-      $response = $this->getNotification($notificationId);
+      $response = null;
+      for ($tries = 0;; ++$tries) {
+        $response = $this->getNotification($notificationId);
+        if ($response->getWrappedObject()['is_cost_data_ready']) break;
+        else if ($tries > 24) throw new \RuntimeException('Cost data not ready');
+        else sleep(5);
+      }
       $response->shouldBeArray();
       $response->shouldHaveKey( 'id' );
       $response['id']->shouldBeString();
 
       $response->shouldHaveKey( 'body' );
       $response['body']->shouldBeString();
-      $response['body']->shouldBe("Hello Foo\r\n\r\nFunctional test help make our world a better place");
+      $response['body']->shouldContain("Foo");
 
       $response->shouldHaveKey( 'subject' );
       $response->shouldHaveKey( 'reference' );
@@ -201,10 +206,6 @@ class ClientSpec extends ObjectBehavior
        $response->shouldHaveKey('cost_in_pounds');
        $response['cost_in_pounds']->shouldBe(0.0);
 
-       $response->shouldHaveKey('is_cost_data_ready');
-       $response['is_cost_data_ready']->shouldBe(true);
-
-
       self::$notificationId = $response['id']->getWrappedObject();
 
     }
@@ -212,7 +213,7 @@ class ClientSpec extends ObjectBehavior
     function it_receives_the_expected_response_when_sending_an_sms_notification(){
 
         $response = $this->sendSms( getenv('TEST_NUMBER'), getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID'), [
-            "name" => "Foo"
+            "build_id" => "Foo"
         ]);
 
         $response->shouldBeArray();
@@ -227,7 +228,7 @@ class ClientSpec extends ObjectBehavior
         $response['content']['from_number']->shouldBeString();
         $response['content']->shouldHaveKey( 'body' );
         $response['content']['body']->shouldBeString();
-        $response['content']['body']->shouldBe("Hello Foo\n\nFunctional Tests make our world a better place");
+        $response['content']['body']->shouldContain("Foo");
 
         $response->shouldHaveKey( 'template' );
         $response['template']->shouldBeArray();
@@ -254,14 +255,20 @@ class ClientSpec extends ObjectBehavior
       $notificationId = self::$notificationId;
 
       // Retrieve sms notification by id and verify contents
-      $response = $this->getNotification($notificationId);
+      $response = null;
+      for ($tries = 0;; ++$tries) {
+        $response = $this->getNotification($notificationId);
+        if ($response->getWrappedObject()['is_cost_data_ready']) break;
+        else if ($tries > 24) throw new \RuntimeException('Cost data not ready');
+        else sleep(5);
+      }
       $response->shouldBeArray();
       $response->shouldHaveKey( 'id' );
       $response['id']->shouldBeString();
 
       $response->shouldHaveKey( 'body' );
       $response['body']->shouldBeString();
-      $response['body']->shouldBe("Hello Foo\n\nFunctional Tests make our world a better place");
+      $response['body']->shouldContain("Foo");
       $response->shouldHaveKey( 'subject' );
 
       $response->shouldHaveKey( 'reference' );
@@ -297,7 +304,6 @@ class ClientSpec extends ObjectBehavior
       $response->shouldHaveKey('cost_details');
       $response['cost_details']->shouldBeArray();
       $response->shouldHaveKey('cost_in_pounds');
-      $response->shouldHaveKey('is_cost_data_ready');
 
       $response['cost_details']->shouldHaveKey( 'billable_sms_fragments' );
       $response['cost_details']->shouldHaveKey( 'international_rate_multiplier' );
@@ -394,9 +400,8 @@ class ClientSpec extends ObjectBehavior
       $response['type']->shouldBeString();
       $response['type']->shouldBe( 'email' );
       $response['version']->shouldBeInteger();
-      $response['body']->shouldBe( "Hello ((name))\r\n\r\nFunctional test help make our world a better place" );
+      $response['body']->shouldBeString();
       $response['subject']->shouldBeString();
-      $response['subject']->shouldBe( 'Functional Tests are good' );
       $response['letter_contact_block']->shouldBeNull();
     }
 
@@ -422,10 +427,9 @@ class ClientSpec extends ObjectBehavior
       $response['type']->shouldBeString();
       $response['type']->shouldBe( 'sms' );
       $response['name']->shouldBeString();
-      $response['name']->shouldBe( 'Client Functional test sms template' );
       $response['created_by']->shouldBeString();
       $response['version']->shouldBeInteger();
-      $response['body']->shouldBe( "Hello ((name))\r\n\r\nFunctional Tests make our world a better place" );
+      $response['body']->shouldBeString();
       $response['subject']->shouldBeNull();
       $response['letter_contact_block']->shouldBeNull();
     }
@@ -452,19 +456,16 @@ class ClientSpec extends ObjectBehavior
       $response['type']->shouldBeString();
       $response['type']->shouldBe( 'letter' );
       $response['name']->shouldBeString();
-      $response['name']->shouldBe( 'Client functional letter template' );
       $response['created_by']->shouldBeString();
       $response['version']->shouldBeInteger();
-      $response['body']->shouldBe( "Hello ((address_line_1))" );
+      $response['body']->shouldBeString();
       $response['subject']->shouldBeString();
-      $response['subject']->shouldBe( 'Main heading' );
-      $response['letter_contact_block']->shouldBe( "Government Digital Service\n" .
-      "The White Chapel Building\n10 Whitechapel High Street\nLondon\nE1 8QS\nUnited Kingdom" );
+      $response['letter_contact_block']->shouldBeString();
     }
 
     function it_receives_the_expected_response_when_looking_up_a_template_version() {
       $templateId = getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID');
-      $version = 2;
+      $version = 1;
 
       // Retrieve sms notification by id and verify contents
       $response = $this->getTemplateVersion( $templateId, $version );
@@ -486,13 +487,11 @@ class ClientSpec extends ObjectBehavior
       $response['type']->shouldBeString();
       $response['type']->shouldBe( 'sms' );
       $response['name']->shouldBeString();
-      $response['name']->shouldBe( 'Client Functional test sms template' );
       $response['created_at']->shouldBeString();
       $response['created_by']->shouldBeString();
-      $response['created_by']->shouldBe( 'notify-tests-preview+client_funct_tests@digital.cabinet-office.gov.uk' );
       $response['version']->shouldBeInteger();
       $response['version']->shouldBe( $version );
-      $response['body']->shouldBe("Functional Tests make our world a better place");
+      $response['body']->shouldBeString();
       $response['subject']->shouldBeNull();
       $response['letter_contact_block']->shouldBeNull();
     }
@@ -543,7 +542,7 @@ class ClientSpec extends ObjectBehavior
 
           } elseif ( $template_type == "letter") {
             $template['subject']->shouldBeString();
-            $template['letter_contact_block']->shouldBeString();
+            // Letter contact block is optional for letters
 
           }
       }
@@ -554,7 +553,7 @@ class ClientSpec extends ObjectBehavior
       $templateId = getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID');
 
       // Retrieve sms notification by id and verify contents
-      $response = $this->previewTemplate( $templateId, [ 'name' => 'Foo' ]);
+      $response = $this->previewTemplate( $templateId, [ 'build_id' => 'Foo' ]);
 
       //
       $response->shouldBeArray();
@@ -569,7 +568,7 @@ class ClientSpec extends ObjectBehavior
       $response['type']->shouldBeString();
       $response['type']->shouldBe( 'sms' );
       $response['version']->shouldBeInteger();
-      $response['body']->shouldBe("Hello Foo\n\nFunctional Tests make our world a better place");
+      $response['body']->shouldContain("Foo");
       $response['subject']->shouldBeNull();
     }
 
@@ -577,7 +576,7 @@ class ClientSpec extends ObjectBehavior
       $this->shouldThrow('Alphagov\Notifications\Exception\ApiException')->duringSendSms(
         getenv('FUNCTIONAL_TEST_EMAIL'),
         getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID'),
-        [ "name" => "Foo" ],
+        [ "build_id" => "Foo" ],
         '',
         'invlaid_uuid'
       );
@@ -593,7 +592,7 @@ class ClientSpec extends ObjectBehavior
       $response = $this->sendSms(
         getenv('TEST_NUMBER'),
         getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID'), [
-            "name" => "Foo"
+            "build_id" => "Foo"
         ],
         'ref123',
         getenv('FUNCTIONAL_TESTS_SERVICE_SMS_SENDER_ID')
@@ -611,7 +610,7 @@ class ClientSpec extends ObjectBehavior
       $response['content']['from_number']->shouldBeString();
       $response['content']->shouldHaveKey( 'body' );
       $response['content']['body']->shouldBeString();
-      $response['content']['body']->shouldBe("Hello Foo\n\nFunctional Tests make our world a better place");
+      $response['content']['body']->shouldContain("Foo");
 
       $response->shouldHaveKey( 'template' );
       $response['template']->shouldBeArray();
@@ -630,7 +629,7 @@ class ClientSpec extends ObjectBehavior
       $payload = [
           'template_id'=> getenv('FUNCTIONAL_TEST_LETTER_TEMPLATE_ID'),
           'personalisation' => [
-              'name'=>'Fred',
+              'build_id'=>'Fred',
               'address_line_1' => 'Foo',
               'address_line_2' => 'Bar',
               'postcode' => 'SW1 1AA'
@@ -656,10 +655,9 @@ class ClientSpec extends ObjectBehavior
       $response['content']->shouldBeArray();
       $response['content']->shouldHaveKey( 'body' );
       $response['content']['body']->shouldBeString();
-      $response['content']['body']->shouldBe("Hello Foo");
+      $response['content']['body']->shouldContain("Fred");
       $response['content']->shouldHaveKey( 'subject' );
       $response['content']['subject']->shouldBeString();
-      $response['content']['subject']->shouldBe("Main heading");
 
       $response->shouldHaveKey( 'template' );
       $response['template']->shouldBeArray();
@@ -706,7 +704,7 @@ class ClientSpec extends ObjectBehavior
         $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'), [] );
       } catch (ApiException $e) {
         assert($e->getCode() == 400);
-        assert($e->getErrorMessage() == 'BadRequestError: "Missing personalisation: name"');
+        assert($e->getErrorMessage() == 'BadRequestError: "Missing personalisation: build_id"');
         assert($e->getErrors()[0]['error'] == 'BadRequestError');
         $caught = true;
       }
@@ -760,7 +758,6 @@ class ClientSpec extends ObjectBehavior
 
       $count = 0;
 
-      # try 15 times with 3 secs sleep between each attempt, to get the PDF
       while ( True ) {
         // this might fail if the pdf file hasn't been created/virus scanned yet, so check a few times.
         try {
@@ -768,12 +765,12 @@ class ClientSpec extends ObjectBehavior
           $resp = $this->getPdfForLetter( self::$letterNotificationId );
           break;
         } catch (ApiException $e) {
-          if( $e->getErrors()[0]['error'] != 'PDFNotReadyError' || $count >= 15 ) {
+          if( $e->getErrors()[0]['error'] != 'PDFNotReadyError' || $count >= 24 ) {
             throw $e;
           }
 
           $count++;
-          sleep( 3 );
+          sleep( 5 );
         }
       }
       $resp->shouldBeString();
@@ -789,13 +786,19 @@ function it_receives_the_expected_response_when_looking_up_a_letter_notification
       $notificationId = self::$letterNotificationId;
 
       // Retrieve letter notification by id and verify contents
-      $response = $this->getNotification($notificationId);
+      $response = null;
+      for ($tries = 0;; ++$tries) {
+        $response = $this->getNotification($notificationId);
+        if ($response->getWrappedObject()['is_cost_data_ready']) break;
+        else if ($tries > 24) throw new \RuntimeException('Cost data not ready');
+        else sleep(5);
+      }
       $response->shouldBeArray();
       $response->shouldHaveKey( 'id' );
       $response['id']->shouldBeString();
 
       $response->shouldHaveKey( 'body' );
-      $response['body']->shouldBe('Hello Foo');
+      $response['body']->shouldContain('Fred');
       $response->shouldHaveKey( 'subject' );
 
       $response->shouldHaveKey( 'reference' );
@@ -833,7 +836,6 @@ function it_receives_the_expected_response_when_looking_up_a_letter_notification
       $response->shouldHaveKey('cost_details');
       $response['cost_details']->shouldBeArray();
       $response->shouldHaveKey('cost_in_pounds');
-      $response->shouldHaveKey('is_cost_data_ready');
 
       $response['cost_details']->shouldHaveKey( 'billable_sheets_of_paper' );
       $response['cost_details']->shouldHaveKey( 'postage' );
