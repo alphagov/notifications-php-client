@@ -30,8 +30,8 @@ class ClientSpec extends ObjectBehavior
     function let(){
 
       $this->beConstructedWith([
-            'baseUrl'       => getenv('NOTIFY_API_URL'),
-            'apiKey'        => getenv('API_KEY'),
+            'baseUrl'       => getenv('FUNCTIONAL_TESTS_API_HOST'),
+            'apiKey'        => getenv('FUNCTIONAL_TESTS_SERVICE_API_TEST_KEY'),
             'httpClient'    => new \Http\Adapter\Guzzle7\Client
         ]);
 
@@ -45,10 +45,10 @@ class ClientSpec extends ObjectBehavior
 
         $response = $this->sendEmail(
           getenv('FUNCTIONAL_TEST_EMAIL'),
-          getenv('EMAIL_TEMPLATE_ID'),
+          getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'),
           [ "name" => "Foo" ],
           'my_ref',
-          getenv('EMAIL_REPLY_TO_ID'),
+          getenv('FUNCTIONAL_TESTS_SERVICE_EMAIL_REPLY_TO_ID'),
           'https://www.example.com/unsubscribe'
         );
 
@@ -93,7 +93,7 @@ class ClientSpec extends ObjectBehavior
 
       $this->shouldThrow('Alphagov\Notifications\Exception\ApiException')->duringSendEmail(
         getenv('FUNCTIONAL_TEST_EMAIL'),
-        getenv('EMAIL_TEMPLATE_ID'),
+        getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'),
         [ "name" => "Foo" ],
         '',
         'invlaid_uuid'
@@ -104,7 +104,7 @@ class ClientSpec extends ObjectBehavior
 
         $file_contents = file_get_contents( './spec/integration/one_page_pdf.pdf' );
 
-        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('EMAIL_TEMPLATE_ID'), [
+        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'), [
             "name" => $this->prepareUpload( $file_contents )
         ]);
 
@@ -126,7 +126,7 @@ class ClientSpec extends ObjectBehavior
 
         $file_contents = file_get_contents( './spec/integration/basic_csv.csv' );
 
-        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('EMAIL_TEMPLATE_ID'), [
+        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'), [
             "name" => $this->prepareUpload( $file_contents, 'report.csv', TRUE, '4 weeks' )
         ]);
 
@@ -211,7 +211,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_receives_the_expected_response_when_sending_an_sms_notification(){
 
-        $response = $this->sendSms( getenv('FUNCTIONAL_TEST_NUMBER'), getenv('SMS_TEMPLATE_ID'), [
+        $response = $this->sendSms( getenv('TEST_NUMBER'), getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID'), [
             "name" => "Foo"
         ]);
 
@@ -373,7 +373,7 @@ class ClientSpec extends ObjectBehavior
     }
 
     function it_receives_the_expected_response_when_looking_up_an_email_template() {
-      $templateId = getenv('EMAIL_TEMPLATE_ID');
+      $templateId = getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID');
 
       // Retrieve email notification by id and verify contents
       $response = $this->getTemplate( $templateId );
@@ -401,7 +401,7 @@ class ClientSpec extends ObjectBehavior
     }
 
     function it_receives_the_expected_response_when_looking_up_an_sms_template() {
-      $templateId = getenv('SMS_TEMPLATE_ID');
+      $templateId = getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID');
 
       // Retrieve sms notification by id and verify contents
       $response = $this->getTemplate( $templateId );
@@ -431,7 +431,7 @@ class ClientSpec extends ObjectBehavior
     }
 
     function it_receives_the_expected_response_when_looking_up_a_letter_template() {
-      $templateId = getenv('LETTER_TEMPLATE_ID');
+      $templateId = getenv('FUNCTIONAL_TEST_LETTER_TEMPLATE_ID');
 
       // Retrieve letter notification by id and verify contents
       $response = $this->getTemplate( $templateId );
@@ -463,7 +463,7 @@ class ClientSpec extends ObjectBehavior
     }
 
     function it_receives_the_expected_response_when_looking_up_a_template_version() {
-      $templateId = getenv('SMS_TEMPLATE_ID');
+      $templateId = getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID');
       $version = 2;
 
       // Retrieve sms notification by id and verify contents
@@ -551,7 +551,7 @@ class ClientSpec extends ObjectBehavior
     }
 
     function it_receives_the_expected_response_when_previewing_a_template() {
-      $templateId = getenv('SMS_TEMPLATE_ID');
+      $templateId = getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID');
 
       // Retrieve sms notification by id and verify contents
       $response = $this->previewTemplate( $templateId, [ 'name' => 'Foo' ]);
@@ -576,7 +576,7 @@ class ClientSpec extends ObjectBehavior
     function it_receives_the_expected_response_when_sending_an_sms_notification_with_invaild_smsSenderId(){
       $this->shouldThrow('Alphagov\Notifications\Exception\ApiException')->duringSendSms(
         getenv('FUNCTIONAL_TEST_EMAIL'),
-        getenv('SMS_TEMPLATE_ID'),
+        getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID'),
         [ "name" => "Foo" ],
         '',
         'invlaid_uuid'
@@ -585,18 +585,18 @@ class ClientSpec extends ObjectBehavior
 
     function it_receives_the_expected_response_when_sending_an_sms_notification_with_valid_seender_id(){
       $this->beConstructedWith([
-        'baseUrl'       => getenv('NOTIFY_API_URL'),
-        'apiKey'        => getenv('API_SENDING_KEY'),
+        'baseUrl'       => getenv('FUNCTIONAL_TESTS_API_HOST'),
+        'apiKey'        => getenv('FUNCTIONAL_TESTS_SERVICE_API_KEY'),
         'httpClient'    => new \Http\Adapter\Guzzle7\Client
       ]);
 
       $response = $this->sendSms(
-        getenv('FUNCTIONAL_TEST_NUMBER'),
-        getenv('SMS_TEMPLATE_ID'), [
+        getenv('TEST_NUMBER'),
+        getenv('FUNCTIONAL_TEST_SMS_TEMPLATE_ID'), [
             "name" => "Foo"
         ],
         'ref123',
-        getenv('SMS_SENDER_ID')
+        getenv('FUNCTIONAL_TESTS_SERVICE_SMS_SENDER_ID')
       );
 
       $response->shouldBeArray();
@@ -628,7 +628,7 @@ class ClientSpec extends ObjectBehavior
     function it_receives_the_expected_response_when_sending_a_letter_notification(){
 
       $payload = [
-          'template_id'=> getenv('LETTER_TEMPLATE_ID'),
+          'template_id'=> getenv('FUNCTIONAL_TEST_LETTER_TEMPLATE_ID'),
           'personalisation' => [
               'name'=>'Fred',
               'address_line_1' => 'Foo',
@@ -703,7 +703,7 @@ class ClientSpec extends ObjectBehavior
       $caught = false;
       try {
         // missing personalisation
-        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('EMAIL_TEMPLATE_ID'), [] );
+        $response = $this->sendEmail( getenv('FUNCTIONAL_TEST_EMAIL'), getenv('FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'), [] );
       } catch (ApiException $e) {
         assert($e->getCode() == 400);
         assert($e->getErrorMessage() == 'BadRequestError: "Missing personalisation: name"');
@@ -715,8 +715,8 @@ class ClientSpec extends ObjectBehavior
 
     function it_receives_the_expected_response_when_looking_up_received_texts() {
       $this->beConstructedWith([
-        'baseUrl'       => getenv('NOTIFY_API_URL'),
-        'apiKey'        => getenv('INBOUND_SMS_QUERY_KEY'),
+        'baseUrl'       => getenv('FUNCTIONAL_TESTS_API_HOST'),
+        'apiKey'        => getenv('FUNCTIONAL_TESTS_SERVICE_API_TEST_KEY'),
         'httpClient'    => new \Http\Adapter\Guzzle7\Client
       ]);
 
