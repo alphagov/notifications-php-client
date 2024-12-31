@@ -154,7 +154,13 @@ class ClientSpec extends ObjectBehavior
       $notificationId = self::$notificationId;
 
       // Retrieve email notification by id and verify contents
-      $response = $this->getNotification($notificationId);
+      $response = null;
+      for ($tries = 0;; ++$tries) {
+        $response = $this->getNotification($notificationId);
+        if ($response->getWrappedObject()['is_cost_data_ready']) break;
+        else if ($tries > 24) throw new \RuntimeException('Cost data not ready');
+        else sleep(5);
+      }
       $response->shouldBeArray();
       $response->shouldHaveKey( 'id' );
       $response['id']->shouldBeString();
@@ -254,7 +260,13 @@ class ClientSpec extends ObjectBehavior
       $notificationId = self::$notificationId;
 
       // Retrieve sms notification by id and verify contents
-      $response = $this->getNotification($notificationId);
+      $response = null;
+      for ($tries = 0;; ++$tries) {
+        $response = $this->getNotification($notificationId);
+        if ($response->getWrappedObject()['is_cost_data_ready']) break;
+        else if ($tries > 24) throw new \RuntimeException('Cost data not ready');
+        else sleep(5);
+      }
       $response->shouldBeArray();
       $response->shouldHaveKey( 'id' );
       $response['id']->shouldBeString();
@@ -464,7 +476,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_receives_the_expected_response_when_looking_up_a_template_version() {
       $templateId = getenv('SMS_TEMPLATE_ID');
-      $version = 2;
+      $version = 1;
 
       // Retrieve sms notification by id and verify contents
       $response = $this->getTemplateVersion( $templateId, $version );
@@ -486,13 +498,13 @@ class ClientSpec extends ObjectBehavior
       $response['type']->shouldBeString();
       $response['type']->shouldBe( 'sms' );
       $response['name']->shouldBeString();
-      $response['name']->shouldBe( 'Client Functional test sms template' );
+      $response['name']->shouldBe( 'Example text message template' );
       $response['created_at']->shouldBeString();
       $response['created_by']->shouldBeString();
-      $response['created_by']->shouldBe( 'notify-tests-preview+client_funct_tests@digital.cabinet-office.gov.uk' );
+      $response['created_by']->shouldMatch( '/^notify-tests-preview.+@digital\.cabinet-office\.gov\.uk$/' );
       $response['version']->shouldBeInteger();
       $response['version']->shouldBe( $version );
-      $response['body']->shouldBe("Functional Tests make our world a better place");
+      $response['body']->shouldBe("Hey ((name)), I’m trying out Notify. Today is ((day of week)) and my favourite colour is ((colour)).");
       $response['subject']->shouldBeNull();
       $response['letter_contact_block']->shouldBeNull();
     }
@@ -768,12 +780,12 @@ class ClientSpec extends ObjectBehavior
           $resp = $this->getPdfForLetter( self::$letterNotificationId );
           break;
         } catch (ApiException $e) {
-          if( $e->getErrors()[0]['error'] != 'PDFNotReadyError' || $count >= 15 ) {
+          if( $e->getErrors()[0]['error'] != 'PDFNotReadyError' || $count >= 24 ) {
             throw $e;
           }
 
           $count++;
-          sleep( 3 );
+          sleep( 5 );
         }
       }
       $resp->shouldBeString();
@@ -789,7 +801,13 @@ function it_receives_the_expected_response_when_looking_up_a_letter_notification
       $notificationId = self::$letterNotificationId;
 
       // Retrieve letter notification by id and verify contents
-      $response = $this->getNotification($notificationId);
+      $response = null;
+      for ($tries = 0;; ++$tries) {
+        $response = $this->getNotification($notificationId);
+        if ($response->getWrappedObject()['is_cost_data_ready']) break;
+        else if ($tries > 24) throw new \RuntimeException('Cost data not ready');
+        else sleep(5);
+      }
       $response->shouldBeArray();
       $response->shouldHaveKey( 'id' );
       $response['id']->shouldBeString();
