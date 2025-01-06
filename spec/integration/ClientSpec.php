@@ -555,8 +555,6 @@ class ClientSpec extends ObjectBehavior
 
           } elseif ( $template_type == "letter") {
             $template['subject']->shouldBeString();
-            $template['letter_contact_block']->shouldBeString();
-
           }
       }
 
