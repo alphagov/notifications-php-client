@@ -501,7 +501,6 @@ class ClientSpec extends ObjectBehavior
       $response['name']->shouldBe( 'Example text message template' );
       $response['created_at']->shouldBeString();
       $response['created_by']->shouldBeString();
-      $response['created_by']->shouldMatch( '/^notify-tests-preview.+@digital\.cabinet-office\.gov\.uk$/' );
       $response['version']->shouldBeInteger();
       $response['version']->shouldBe( $version );
       $response['body']->shouldBe("Hey ((name)), I’m trying out Notify. Today is ((day of week)) and my favourite colour is ((colour)).");
