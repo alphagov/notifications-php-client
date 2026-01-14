@@ -1,3 +1,8 @@
+## [6.1.1] - 2025-01-14
+
+* Updates `firebase/php-jwt` to version 7.0.2 to address security vulnerabilities.
+* Updates `phpspec/phpspec` to allow version 8.1 for current PHP support.
+
 ## [6.2.0] - 2024-07-29
 
 ### Added
