@@ -1,7 +1,9 @@
-## [6.1.1] - 2025-01-14
+## [6.2.1] - 2025-01-14
 
 * Updates `firebase/php-jwt` to version 7.0.2 to address security vulnerabilities.
 * Updates `phpspec/phpspec` to allow version 8.1 for current PHP support.
+* Require PHP version 8
+* Updates Dockerfile to use PHP 8.5.3
 
 ## [6.2.0] - 2024-07-29
 
