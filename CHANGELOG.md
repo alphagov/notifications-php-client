@@ -1,3 +1,8 @@
+## [7.0.0] - 2026-02-18
+
+* Bumped firebase/php-jwt from ^6.1.0 to ^7.0.0 to bring in security patches
+* Removed support for PHP 7
+
 ## [6.2.0] - 2024-07-29
 
 ### Added
