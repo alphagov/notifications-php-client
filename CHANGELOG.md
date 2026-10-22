@@ -1,3 +1,6 @@
+## [7.1.1] - 2026-10-22
+* Rebuild of the image using an updated base image following the remote code execution vulnerabilities found widely across the PHP ecosystem.
+
 ## [7.1.0] - 2026-06-03
 
 ### Added
